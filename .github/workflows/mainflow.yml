@@ -6,10 +6,12 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v3
     - uses: hashicorp/setup-terraform@v2
+
+    - name: Setup AWS Creds
       run: |
         aws --version
         (
@@ -39,6 +41,8 @@ jobs:
         
         cat ~/.aws/config
         ls -a
+
+
     - name: Terraform Init
       id: init
       run: terraform init
@@ -56,3 +60,8 @@ jobs:
       id: Apply
       run: terraform apply -auto-approve
       continue-on-error: false
+
+
+
+        
+        
