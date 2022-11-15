@@ -1,8 +1,16 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # Github artifacts which include the tfstate file, expire every 90 days, this refreshs it once a month
+    - cron:  '11 11 11 * *'
+    
+    
 
-jobs:
+jobs: 
   build:
 
     runs-on: ubuntu-latest
@@ -10,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: hashicorp/setup-terraform@v2
-
+        
     - name: Setup AWS Creds
       run: |
         aws --version
@@ -25,43 +33,10 @@ jobs:
           echo "json"
         ) | aws configure
         
-        
-        (
-          sleep .5
-          echo ""
-          sleep .5
-          echo ""
-          sleep .5
-          echo ""
-          sleep .5
-          echo ""
-        ) | aws configure
-        
-        echo "secret: ${{ secrets.access_key }}"
-        
         cat ~/.aws/config
-        ls -a
 
+    - uses: kenkaprielian/terraform_state_artifact@main
+      with:
+        encryptionkey: ${{ secrets.PASSPHRASE }}
+        apply: true
 
-    - name: Terraform Init
-      id: init
-      run: terraform init
-
-    - name: Terraform Validate
-      id: validate
-      run: terraform validate -no-color
-
-    - name: Terraform Plan
-      id: plan
-      run: terraform plan -no-color
-      continue-on-error: true
-
-    - name: Terraform Apply
-      id: Apply
-      run: terraform apply -auto-approve
-      continue-on-error: false
-
-
-
-        
-        
