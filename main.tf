@@ -7,3 +7,7 @@ resource "aws_sqs_queue" "terraform_queue" {
   fifo_queue                  = true
   content_based_deduplication = true
 }
+
+resource "aws_sns_topic" "user_updates" {
+  name = "user-updates-topic"
+}
