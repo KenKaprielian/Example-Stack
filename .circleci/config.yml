@@ -9,6 +9,7 @@ orbs:
 
 jobs:
   get-artifact:
+    executor: terraform/default
     steps:
       - run:
           name: Get artifacts
