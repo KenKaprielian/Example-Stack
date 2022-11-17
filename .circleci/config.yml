@@ -33,6 +33,7 @@ jobs:
             # the '\<<' is a CircleCI escape
             echo "read -r -d '' STORED_ARTIFACTS \<< 'EOF_ARTIFACTS'" >> $BASH_ENV
             echo "$artifacts" >> $BASH_ENV
+            echo "$artifacts"
             echo "EOF_ARTIFACTS" >> $BASH_ENV
             ls -l
             echo 'oh hello'
