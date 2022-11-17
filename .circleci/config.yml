@@ -8,17 +8,8 @@ orbs:
 # Define a job to be invoked later in a workflow.
 
 jobs:
-  aws-cli-cred-setup:
-    executor: aws-cli/default
+  get-artifact:
     steps:
-      - aws-cli/setup:
-          aws-access-key-id: AWS_ACCESS_KEY
-          aws-secret-access-key: AWS_ACCESS_SECRET
-          aws-region: AWS_REGION_NAME
-  single-job-lifecycle:
-    executor: terraform/default
-    steps:
-      - checkout
       - run:
           name: Get artifacts
           when: on_fail
@@ -31,6 +22,18 @@ jobs:
             echo "read -r -d '' STORED_ARTIFACTS \<< 'EOF_ARTIFACTS'" >> $BASH_ENV
             echo "$artifacts" >> $BASH_ENV
             echo "EOF_ARTIFACTS" >> $BASH_ENV
+            
+  aws-cli-cred-setup:
+    executor: aws-cli/default
+    steps:
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY
+          aws-secret-access-key: AWS_ACCESS_SECRET
+          aws-region: AWS_REGION_NAME
+  single-job-lifecycle:
+    executor: terraform/default
+    steps:
+      - checkout
       - terraform/init:
           path: .
       - terraform/apply:
