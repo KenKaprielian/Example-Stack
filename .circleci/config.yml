@@ -6,7 +6,7 @@ orbs:
   aws-cli: circleci/aws-cli@2.0.6
   terraform: circleci/terraform@3.2.0
 # Define a job to be invoked later in a workflow.
- 
+
 jobs:
   aws-cli-cred-setup:
     executor: aws-cli/default
@@ -18,7 +18,18 @@ jobs:
   single-job-lifecycle:
     executor: terraform/default
     steps:
-      - checkout
+    - run:
+        name: Get artifacts
+        when: on_fail
+        command: |
+          artifacts=$(curl -X GET "https://circleci.com/api/v2/project/github/KenKaprielian/Example-Stack/$CIRCLE_BUILD_NUM/artifacts" \
+          -H "Accept: application/json" \
+          -u "$kentoken:")
+          # generate a heredoc in BASH_ENV
+          # the '\<<' is a CircleCI escape
+          echo "read -r -d '' STORED_ARTIFACTS \<< 'EOF_ARTIFACTS'" >> $BASH_ENV
+          echo "$artifacts" >> $BASH_ENV
+          echo "EOF_ARTIFACTS" >> $BASH_ENV
       - terraform/init:
           path: .
       - terraform/apply:
