@@ -18,6 +18,7 @@ jobs:
   single-job-lifecycle:
     executor: terraform/default
     steps:
+      - checkout
       - run:
           name: Get artifacts
           when: on_fail
