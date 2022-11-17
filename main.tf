@@ -3,12 +3,12 @@ provider "aws" {
 }
 
 resource "aws_sns_topic" "sns-topic" {
-  name         = "example-sns-topic"
+  name         = "example-sns-topic1"
   display_name = "example"
 }
 
 resource "aws_sqs_queue" "sqs-queue" {
-  name     = "example-sqs-queue"
+  name     = "example-sqs-queue1"
 }
 
 resource "aws_sns_topic_subscription" "sns-topic" {
