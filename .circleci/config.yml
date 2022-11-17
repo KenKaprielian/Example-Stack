@@ -26,7 +26,7 @@ jobs:
             echo 'hi there'
             ls -l
             apk update && apk add curl curl-dev bash
-            artifacts=$(curl -X GET "https://circleci.com/api/v2.1/project/github/KenKaprielian/Example-Stack/$CIRCLE_BUILD_NUM/artifacts" \
+            artifacts=$(curl -X GET "https://circleci.com/api/v2/project/github/KenKaprielian/Example-Stack/$CIRCLE_BUILD_NUM/artifacts" \
             -H "Accept: application/json" \
             -u "$kentoken:")
             # generate a heredoc in BASH_ENV
