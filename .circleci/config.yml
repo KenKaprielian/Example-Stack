@@ -14,7 +14,7 @@ jobs:
           name: Get artifacts
           when: on_fail
           command: |
-            artifacts=$(curl -X GET "https://circleci.com/api/v2/project/github/KenKaprielian/Example-Stack/$CIRCLE_BUILD_NUM/artifacts" \
+            artifacts=$(curl -X GET "https://circleci.com/api/v2.1/project/github/KenKaprielian/Example-Stack/$CIRCLE_BUILD_NUM/artifacts" \
             -H "Accept: application/json" \
             -u "$kentoken:")
             # generate a heredoc in BASH_ENV
@@ -43,6 +43,9 @@ jobs:
           destination: terraform.tfstate
     working_directory: ~/src
 workflows:
+  get-artifacts:
+    jobs:
+      - get-artifact
   aws-cli:
     jobs:
       - aws-cli-cred-setup:
