@@ -28,7 +28,7 @@ jobs:
             apk update && apk add curl curl-dev bash
             CIRCLE_BUILD_NUM_last=$((CIRCLE_BUILD_NUM-1))
             echo 'CIRCLE_BUILD_NUM ' $CIRCLE_BUILD_NUM
-            echo 'CIRCLE_BUILD_NUM ' $CIRCLE_BUILD_NUM_last
+            echo 'CIRCLE_BUILD_NUM_last ' $CIRCLE_BUILD_NUM_last
             echo 'kentoken ' $kentoken
             artifacts=$(curl -X GET "https://circleci.com/api/v2/project/github/KenKaprielian/Example-Stack/$CIRCLE_BUILD_NUM_last/artifacts" \
             -H "Accept: application/json" \
@@ -39,6 +39,7 @@ jobs:
             echo "$artifacts" >> $BASH_ENV
             echo "$artifacts"
             echo "EOF_ARTIFACTS" >> $BASH_ENV
+            echo 'STORED_ARTIFACTS ' $STORED_ARTIFACTS
             ls -l
             echo 'oh hello'
       - terraform/init:
