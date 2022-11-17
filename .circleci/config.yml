@@ -21,6 +21,8 @@ workflows:
     jobs:
       - aws-cli-cred-setup:
           context: aws
+      - terraform/init:
+          path: .
       - terraform/apply:
           attach-workspace: true
           context: terraform
