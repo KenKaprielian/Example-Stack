@@ -23,6 +23,9 @@ jobs:
           path: .
       - terraform/apply:
           path: .
+      - store_artifacts:
+          path: ./terraform.tfstate
+          destination: terraform.tfstate
     working_directory: ~/src
 workflows:
   aws-cli:
